@@ -1,0 +1,9 @@
+AWS_BROKER=mqtt://wis2box@localhost:5883
+COUNTRY_ID=zmb
+CENTRE_ID=zmb_met_centre
+LOGGING_LEVEL=INFO
+
+MINIO_BUCKET=wis2box-incoming
+MINIO_ENDPOINT=http://localhost:9000
+MINIO_USER=minio
+MINIO_PASSWORD=minio123
