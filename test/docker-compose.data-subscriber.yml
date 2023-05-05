@@ -1,0 +1,14 @@
+services:
+  wis2box-data-subscriber:
+    container_name: wis2box-data-subscriber
+    build: ../.
+    environment:
+      - LOGGING_LEVEL=${LOGGING_LEVEL:-WARNING}
+      - CENTRE_ID=${CENTRE_ID}
+      - COUNTRY_ID=${COUNTRY_ID}
+      - AWS_BROKER=${AWS_BROKER}
+      - MINIO_BUCKET=${MINIO_BUCKET}
+      - MINIO_ENDPOINT=${MINIO_ENDPOINT}
+      - MINIO_USER=${MINIO_USER}
+      - MINIO_PASSWORD=${MINIO_PASSWORD}
+    network_mode: host

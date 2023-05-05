@@ -1,0 +1,37 @@
+name: test docker
+
+on: [ push, pull_request ]
+
+jobs:
+  docker-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      name: setup Python
+      with:
+        python-version: 3.8
+    - name: install testing requirements
+      working-directory: test
+      run: |
+        pip3 install -r requirements.txt
+    - name: start test environment
+      run: |
+        docker-compose --env-file test/env_file -f test/docker-compose.test-env.yml up -d 
+    - name: build wis2box-data-subscriber
+      run: |
+        docker-compose --env-file test/env_file -f test/docker-compose.data-subscriber.yml build
+    - name: start wis2box-data-subscriber
+      run: |
+        docker-compose --env-file test/env_file -f test/docker-compose.data-subscriber.yml up -d 
+        sleep 2
+    - name: run tests 
+      run: |
+        python3 test/run-tests.py
+    - name: failed tests 🚩 check logs!
+      if: ${{ failure() }}
+      run: |
+        docker logs wis2box-data-subscriber
+        docker logs mosquitto
+        docker logs minio
+        docker logs createbuckets

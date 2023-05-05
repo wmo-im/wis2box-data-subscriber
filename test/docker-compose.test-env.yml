@@ -1,0 +1,32 @@
+services:  
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto
+    volumes:
+      - ./mosquitto-config:/mosquitto/config
+    ports:
+      - "5883:1883"
+
+  minio:
+    container_name: minio
+    image: minio/minio:RELEASE.2022-12-02T19-19-22Z.fips
+    ports:
+      - "9001:9001"
+      - "9000:9000"
+    command: server --console-address ":9001" /data
+    environment:
+      - MINIO_ROOT_USER=${MINIO_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD}
+      
+  createbuckets:
+    container_name: createbuckets
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:9000 ${MINIO_USER} ${MINIO_PASSWORD};
+      /usr/bin/mc mb myminio/wis2box-incoming;
+      /usr/bin/mc anonymous set download myminio/wis2box-incoming; 
+      exit 0;
+      "
