@@ -53,8 +53,8 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ env.DOCKER_ORG }}/wis2box-aws-subscriber
-            ghcr.io/${{ github.repository_owner }}/wis2box-aws-subscriber
+            ${{ env.DOCKER_ORG }}/wis2box-data-subscriber
+            ghcr.io/${{ github.repository_owner }}/wis2box-data-subscriber
           tags: |
             type=raw,value=latest,enable=true
             type=pep440,pattern={{version}}

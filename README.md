@@ -26,7 +26,7 @@ wis2box-data-subscriber uses. the following environment-variables:
 
 ```bash
 
-AWS_BROKER=mqtt://wis2box:wis2box@localhost:1883 # set endpoint for broker where AWS data is published
+AWS_BROKER=mqtt://wis2box:xxx@localhost:1883 # set endpoint for broker where AWS data is published
 COUNTRY_ID=zmb # set country_id used in wis2-topic-hierarchy
 CENTRE_ID=zmb_met_centre # set centre_id for wis2-topic-hierarchy
 LOGGING_LEVEL=INFO # set logging level
@@ -35,5 +35,5 @@ LOGGING_LEVEL=INFO # set logging-level
 MINIO_BUCKET=wis2box-incoming
 MINIO_ENDPOINT=http://localhost:9000 # set this to the minio-endpoint for your wis2box 
 MINIO_ROOT_USER=minio # minio username for your minio-endpoint
-MINIO_ROOT_PASSWORD=minio123 # minio password for your minio-endpoint
+MINIO_ROOT_PASSWORD=xxx # minio password for your minio-endpoint
 ```
