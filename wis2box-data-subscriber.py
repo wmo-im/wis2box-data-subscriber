@@ -115,9 +115,11 @@ def write_csv(topic, headers, logger_id, data):
                 identifier,
                 csv_buffer,
                 len(csv_bytes))
+            LOGGER.info(f"Successfully uploaded {identifier} to {MINIO_BUCKET}")
         except Exception as e:
             LOGGER.error(e)
-        LOGGER.info(f"Successfully uploaded {identifier} to {MINIO_BUCKET}")
+        
+        
 
 
 def process_data(client, userdata, msg):
