@@ -136,9 +136,13 @@ def process_data(client, userdata, msg):
 
     topic = msg.topic
     LOGGER.info(f"Message received on topic={topic}.")
-    m = json.loads(msg.payload.decode('utf-8'))
     last_level = topic.split('/')[-1]
     if last_level == "SYNOP":
+        try:
+            m = json.loads(msg.payload.decode('utf-8'))
+        except Exception as e:
+            LOGGER.error(f"ERROR parsing MQTT-message received: {e}")
+            return
         try:
             write_csv(topic,
                       headers=m['properties']['observationNames'],
