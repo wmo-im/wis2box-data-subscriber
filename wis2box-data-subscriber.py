@@ -37,7 +37,6 @@ LOGGER = logging.getLogger('wis2box-data-subscriber')
 
 LOGGING_LOGLEVEL = os.environ.get('LOGGING_LEVEL', 'INFO')
 CENTRE_ID = os.environ.get('CENTRE_ID', 'not defined')
-COUNTRY_ID = os.environ.get('COUNTRY_ID', 'not defined')
 AWS_BROKER = os.environ.get('AWS_BROKER', 'not defined')
 
 MINIO_ENDPOINT = os.environ.get('MINIO_ENDPOINT')
@@ -94,7 +93,7 @@ def write_csv(topic, headers, logger_id, data):
     base_csv += f'"{logger_id}"\n'
     base_csv += '"observations:"\n'
 
-    prefix = f"{COUNTRY_ID}/{CENTRE_ID}"
+    prefix = f"{CENTRE_ID}"
     prefix += "/data/core/weather/surface-based-observations/synop/"
 
     # create one csv per timestamp
@@ -181,9 +180,6 @@ def main():
     print(f"LOGGING_LOGLEVEL={LOGGING_LOGLEVEL}")
     LOGGER.setLevel(LOGGING_LOGLEVEL)
 
-    if COUNTRY_ID == 'not defined':
-        LOGGER.error("COUNTRY_ID is not defined, exiting")
-        return
     if CENTRE_ID == 'not defined':
         LOGGER.error("CENTRE_ID is not defined, exiting")
         return
@@ -198,7 +194,7 @@ def main():
         LOGGER.info(f"host={broker_url.hostname}")
         LOGGER.info(f"user={broker_url.username}")
         LOGGER.info(f"port={broker_url.port}")
-        client_id = f"wis2box-data-subscriber-{COUNTRY_ID}-{CENTRE_ID}"
+        client_id = f"wis2box-data-subscriber-{CENTRE_ID}"
         client = mqtt.Client(client_id=client_id, protocol=mqtt.MQTTv5)
         client.on_connect = sub_data_incoming
         client.on_message = process_data
