@@ -22,7 +22,7 @@ with open(filename,'r') as f:
 print('wait 2 seconds')
 time.sleep(2)
 print('check file is in bucket')
-mypath = 'zmb/zmb_met_centre/data/core/weather/surface-based-observations/synop'
+mypath = 'zm-zmb_met_centre/data/core/weather/surface-based-observations/synop'
 myfilename = 'CR1000X_34769_20230428T153200Z.csv'
 res = requests.get(f'http://localhost:9000/wis2box-incoming/{mypath}/{myfilename}')
 print(res)
