@@ -38,6 +38,8 @@ LOGGER = logging.getLogger('wis2box-data-subscriber')
 LOGGING_LOGLEVEL = os.environ.get('LOGGING_LEVEL', 'INFO')
 CENTRE_ID = os.environ.get('CENTRE_ID', 'not defined')
 AWS_BROKER = os.environ.get('AWS_BROKER', 'not defined')
+if AWS_BROKER == 'not defined':
+    AWS_BROKER = os.environ.get('WIS2BOX_BROKER_PUBLIC', 'not defined')
 
 MINIO_ENDPOINT = os.environ.get('MINIO_ENDPOINT')
 MINIO_USER = os.environ.get('MINIO_USER')
