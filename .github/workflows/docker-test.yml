@@ -17,13 +17,13 @@ jobs:
         pip3 install -r requirements.txt
     - name: start test environment
       run: |
-        docker-compose --env-file test/env_file -f test/docker-compose.test-env.yml up -d 
+        docker compose --env-file test/env_file -f test/docker-compose.test-env.yml up -d 
     - name: build wis2box-data-subscriber
       run: |
-        docker-compose --env-file test/env_file -f test/docker-compose.data-subscriber.yml build
+        docker compose --env-file test/env_file -f test/docker-compose.data-subscriber.yml build
     - name: start wis2box-data-subscriber
       run: |
-        docker-compose --env-file test/env_file -f test/docker-compose.data-subscriber.yml up -d 
+        docker compose --env-file test/env_file -f test/docker-compose.data-subscriber.yml up -d 
         sleep 2
     - name: run tests 
       run: |
