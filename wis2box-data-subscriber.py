@@ -173,6 +173,21 @@ def sub_data_incoming(client, userdata, flags, rc, properties=None):
         LOGGER.info(f'subscribe to: {s}')
         client.subscribe(s, qos=1)
 
+def log_disconnect(client, userdata, flags, rc, properties=None):
+    """
+    function executed 'on_disconnect' for paho.mqtt.client
+    logs the disconnect event
+
+    :param client: client-object associated to 'on_disconnect'
+    :param userdata: userdata
+    :param flags: flags
+    :param rc: return-code received 'on_disconnect'
+    :param properties: properties
+
+    :returns: `None`
+    """
+    LOGGER.error(f"disconnected: {mqtt.error_string(rc)}")
+    LOGGER.error(f"reason: {properties.reason_string if properties else 'no reason provided'}")
 
 def main():
     """
@@ -199,12 +214,13 @@ def main():
         client_id = f"wis2box-data-subscriber-{CENTRE_ID}"
         client = mqtt.Client(client_id=client_id, protocol=mqtt.MQTTv5)
         client.on_connect = sub_data_incoming
+        client.on_disconnect = log_disconnect
         client.on_message = process_data
         client.username_pw_set(broker_url.username, broker_url.password)
         if broker_url.scheme == 'mqtts':
             LOGGER.info("mqtts: set tls_version=2")
             client.tls_set(tls_version=2)
-        client.connect(broker_url.hostname, broker_url.port)
+        client.connect(broker_url.hostname, broker_url.port, 5)
         client.loop_forever()
     except Exception as err:
         LOGGER.error(f"Failed to setup MQTT-client with error: {err}")
